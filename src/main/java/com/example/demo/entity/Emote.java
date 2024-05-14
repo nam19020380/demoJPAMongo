@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Emote extends BaseObject{
     @Id
-    private Integer emoteId;
+    private Integer Id;
 
     private Integer userId;
 

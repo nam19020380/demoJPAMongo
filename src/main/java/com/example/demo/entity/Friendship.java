@@ -12,13 +12,13 @@ import java.sql.Date;
 @NoArgsConstructor
 public class Friendship {
     @Id
-    private Integer friendshipId;
+    private Integer Id;
 
     private Integer userId;
 
     private Integer friendId;
 
-    private int side;
+    private Integer side;
 
     private Date date;
 }
