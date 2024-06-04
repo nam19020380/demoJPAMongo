@@ -6,14 +6,10 @@ import org.springframework.data.annotation.Id;
 import java.io.Serializable;
 import java.util.Date;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class User extends BaseObject implements Serializable{
-    @Id
-    private Integer id;
-
     private String email;
 
     private String password;
@@ -45,7 +41,7 @@ public class User extends BaseObject implements Serializable{
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + id +
+                "userId=" + super.getId() +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +

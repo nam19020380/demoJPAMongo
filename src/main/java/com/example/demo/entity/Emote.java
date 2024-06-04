@@ -13,14 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Emote extends BaseObject{
-    @Id
-    private Integer Id;
+    private String userId;
 
-    private Integer userId;
+    private String commentId;
 
-    private Integer commentId;
-
-    private Integer statusId;
+    private String postId;
 
     private Date date;
 }

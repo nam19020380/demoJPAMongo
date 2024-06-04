@@ -28,7 +28,7 @@ public class ImageServiceImpl implements ImageService {
 
         String orgName = multipartFile.getOriginalFilename();
         String filePath = realPathtoUploads + orgName;
-        Integer i = 0;
+        Integer i = (Integer) 0;
         while (new File(filePath).exists()){
             i++;
             filePath = realPathtoUploads + i.toString() + orgName ;

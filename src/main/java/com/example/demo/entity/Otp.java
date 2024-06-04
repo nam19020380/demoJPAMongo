@@ -10,9 +10,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class Otp extends BaseObject{
-    @Id
-    private Integer id;
-
     private String email;
 
     private String otpKey;

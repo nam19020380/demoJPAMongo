@@ -10,15 +10,12 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Friendship {
-    @Id
-    private Integer Id;
+public class Friendship extends BaseObject{
+    private String userId;
 
-    private Integer userId;
+    private String friendId;
 
-    private Integer friendId;
-
-    private Integer side;
+    private String side;
 
     private Date date;
 }

@@ -9,15 +9,12 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Comment {
-    @Id
-    private Integer Id;
+public class Comment extends BaseObject{
+    private String userId;
 
-    private Integer userId;
+    private String commentId;
 
-    private Integer commentId;
-
-    private Integer statusId;
+    private String postId;
 
     private String content;
 

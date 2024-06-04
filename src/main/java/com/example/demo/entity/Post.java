@@ -13,10 +13,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class Post extends BaseObject{
-    @Id
-    private Integer Id;
-
-    private Integer userId;
+    private String userId;
 
     private String content;
 

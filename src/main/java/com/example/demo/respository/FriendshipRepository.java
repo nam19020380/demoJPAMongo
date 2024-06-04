@@ -7,23 +7,23 @@ import java.util.Date;
 import java.util.List;
 
 public interface FriendshipRepository extends MongoRepository<Friendship, String> {
-    public Integer countByUserIdAndSideAndDateGreaterThanEqualAndDelFlagIsFalse(Integer userId,Integer side, Date date);
+    public Integer countByUserIdAndSideAndDateGreaterThanEqualAndDelFlagIsFalse(String userId,String side, Date date);
 
-    public List<Friendship> findByUserIdAndDelFlagIsFalse(Integer userId);
+    public List<Friendship> findByUserIdAndDelFlagIsFalse(String userId);
 
-    public List<Friendship> findByUserIdAndSideAndDelFlagIsFalse(Integer userId, Integer side);
+    public List<Friendship> findByUserIdAndSideAndDelFlagIsFalse(String userId, String side);
 
-    public List<Friendship> findByFriendIdAndSideAndDelFlagIsFalse(Integer friendId, Integer side);
+    public List<Friendship> findByFriendIdAndSideAndDelFlagIsFalse(String friendId, String side);
 
-    public Friendship findByFriendshipIdAndDelFlagIsFalse(Integer friendshipId);
+    public Friendship findByIdAndDelFlagIsFalse(String friendshipId);
 
-    public Boolean existsByUserIdAndFriendIdAndSideAndDelFlagIsFalse(Integer userId, Integer friendId, Integer side);
+    public Boolean existsByUserIdAndFriendIdAndSideAndDelFlagIsFalse(String userId, String friendId, String side);
 
-    public Boolean existsByUserIdAndFriendIdAndDelFlagIsFalse(Integer userId, Integer friendId);
+    public Boolean existsByUserIdAndFriendIdAndDelFlagIsFalse(String userId, String friendId);
 
-    public Boolean existsByUserIdAndFriendIdAndSide(Integer userId, Integer friendId, Integer side);
+    public Boolean existsByUserIdAndFriendIdAndSide(String userId, String friendId, String side);
 
-    public Boolean existsByUserIdAndFriendId(Integer userId, Integer friendId);
+    public Boolean existsByUserIdAndFriendId(String userId, String friendId);
 
-    public Integer countByUserIdAndSideAndDelFlagIsFalseAndDateGreaterThanEqual(Integer userId, Integer side, Date date);
+    public Integer countByUserIdAndSideAndDelFlagIsFalseAndDateGreaterThanEqual(String userId, String side, Date date);
 }
