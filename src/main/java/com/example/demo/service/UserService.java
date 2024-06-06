@@ -7,7 +7,7 @@ import com.example.demo.entity.User;
 import java.util.List;
 
 public interface UserService {
-    public Integer saveUser(User user);
+    public String saveUser(User user);
 
     public User findUserByEmail(String email);
 

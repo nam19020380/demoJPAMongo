@@ -2,7 +2,7 @@ package com.example.demo.entity;
 
 
 import lombok.*;
-import java.sql.Date;
+import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 @NoArgsConstructor

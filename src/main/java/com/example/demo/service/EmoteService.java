@@ -17,19 +17,19 @@ public interface EmoteService {
 
     public List<Emote> findByCommentId(String id);
 
-    public void deleteByStatusId(String id);
+    public void deleteByPostId(String id);
 
     public void deleteByCommentId(String id);
 
-    public Integer countByUserUserIdAndDateGreaterThanEqual(String userId, Date date);
+    public Integer countByUserIdAndDateGreaterThanEqual(String userId, Date date);
 
-    public Integer countByStatusStatusId(String statusId);
+    public Integer countByPostId(String statusId);
 
-    public Integer countByCommentCommentId(String commentId);
+    public Integer countByCommentId(String commentId);
 
-    public Boolean existsByUserUserIdAndEmoteId(String userId, String emoteId);
+    public Boolean existsByUserIdAndEmoteId(String userId, String emoteId);
 
-    public Boolean existsByUserUserIdAndStatusStatusId(String userId, String statusId);
+    public Boolean existsByUserIdAndPostId(String userId, String statusId);
 
-    public Boolean existsByUserUserIdAndCommentCommentId(String userId, String commentId);
+    public Boolean existsByUserIdAndCommentId(String userId, String commentId);
 }

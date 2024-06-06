@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Date;
 import java.util.List;
 
-public interface EmoteRepository extends MongoRepository<Post, String> {
+public interface EmoteRepository extends MongoRepository<Emote, String> {
     public Integer countByUserIdAndDelFlagIsFalseAndDateGreaterThanEqual(String userId, Date date);
 
     public List<Emote> findByCommentIdAndDelFlagIsFalse(String commentId);

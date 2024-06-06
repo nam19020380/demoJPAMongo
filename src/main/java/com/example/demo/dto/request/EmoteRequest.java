@@ -8,7 +8,7 @@ import lombok.*;
 public class EmoteRequest {
     private String id;
 
-    private String statusId;
+    private String postId;
 
     private String commentId;
 }

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,9 +17,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder encoder;
 
     @Override
-    public Integer saveUser(User user) {
-        User lastUser = userRepository.findTopByOrderByIdDesc();
-        user.setId(Objects.isNull(lastUser) ? 1 : lastUser.getId() + 1);
+    public String saveUser(User user) {
         return userRepository.save(user).getId();
     }
 

@@ -5,7 +5,7 @@ import com.example.demo.entity.Post;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public interface PostService {
