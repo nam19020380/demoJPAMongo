@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 public class UserDetailsImpl implements UserDetails {
 
-    private Integer id;
+    private String id;
 
     private String email;
 
@@ -30,7 +30,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private String job;
 
-    public UserDetailsImpl(Integer id, String email, String password, String username,
+    public UserDetailsImpl(String id, String email, String password, String username,
                            Date userBirthday, String userAvatarLink, String job) {
         this.id = id;
         this.email = email;
@@ -48,7 +48,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 user.getUserName(),
                 user.getUserBirthday(),
-                user.getUserAvatarlink(),
+                user.getUserAvatarLink(),
                 user.getUserJob());
     }
 

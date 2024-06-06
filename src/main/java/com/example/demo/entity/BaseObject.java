@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 public class BaseObject {
     @Id
-    private Integer Id;
+    private String id;
 
     private boolean delFlag;
 
