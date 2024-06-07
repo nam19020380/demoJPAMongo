@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.request.FriendRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.example.demo.service.FriendshipService;
+import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping(value = "/api/v1/friendship")
@@ -19,12 +22,12 @@ public class FriendController {
     }
 
     @PutMapping
-    public ResponseEntity<?> acceptRequest(@RequestParam Integer id){
+    public ResponseEntity<?> acceptRequest(@RequestParam String id){
         return friendshipService.acceptRequest(id);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteFriendship(@RequestParam Integer id){
+    public ResponseEntity<?> deleteFriendship(@RequestParam String id){
         return friendshipService.deleteFriendship(id);
     }
 

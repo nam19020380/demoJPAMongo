@@ -27,8 +27,6 @@ public class OtpServiceImpl implements OtpService{
             optionalOtp.get().setDate(otp.getDate());
             otpRepository.save(optionalOtp.get());
         } else {
-            Otp lastOtp = otpRepository.findTopByOrderByIdDesc();
-            otp.setId(Objects.isNull(lastOtp) ? 1 : lastOtp.getId() + 1);
             otpRepository.save(otp);
         }
     }
