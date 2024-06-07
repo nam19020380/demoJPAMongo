@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.dto.request.PostRequest;
 import com.example.demo.dto.response.PostResponse;
+import com.example.demo.entity.Friendship;
 import com.example.demo.entity.Post;
+import com.example.demo.respository.FriendshipRepository;
 import com.example.demo.respository.PostRepository;
 import com.example.demo.sercurity.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +35,8 @@ public class PostServiceImpl implements PostService{
 
     @Autowired
     ImageService imageService;
+    @Autowired
+    private FriendshipRepository friendshipRepository;
 
     public void savePost(Post post) {
         postRepository.save(post);
@@ -68,20 +73,21 @@ public class PostServiceImpl implements PostService{
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             String id = postRequest.getId();
             if(postRepository.existsByUserIdAndIdAndDelFlagIsFalse(userDetails.getId(), id)){
-                Post post = new Post();
-                post.setPostId(postRequest.getId());
-                post.setUser(userService.findUserById(userDetails.getId()));
+                Post post = postRepository.findByIdAndDelFlagIsFalse(id);
+                post.setUserId(userDetails.getId());
                 post.setContent(postRequest.getContent());
                 post.setImageLink(imageService.uploadImage(postRequest.getFile()));
                 post.setDate(new java.sql.Date(new java.util.Date().getTime()));
+                post.setUpdateDate(new Date());
+                post.setUpdateUserName(userDetails.getUsername());
                 postRepository.save(post);
                 PostResponse postResponse = new PostResponse();
-                postResponse.setId(post.getPostId());
+                postResponse.setId(post.getId());
                 postResponse.setText(post.getContent());
-                postResponse.setOwnerName(post.getUser().getEmail());
+                postResponse.setOwnerName(userDetails.getEmail());
                 postResponse.setDate(post.getDate());
-                postResponse.setCommentCount(commentService.countByPostPostId(post.getPostId()));
-                postResponse.setEmoteCount(emoteService.countByPostPostId(post.getPostId()));
+                postResponse.setCommentCount(commentService.countByPostId(post.getId()));
+                postResponse.setEmoteCount(emoteService.countByPostId(post.getId()));
                 return new ResponseEntity<>(postResponse, HttpStatus.OK);
             } else {
                 return ResponseEntity.badRequest()
@@ -98,19 +104,21 @@ public class PostServiceImpl implements PostService{
 
     public ResponseEntity<?> findByUserId(String userId){
         try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             List<PostResponse> postResponses = new ArrayList<>();
-            List<Post> postes = postRepository.findByUserUserId(userId);
+            List<Post> postes = postRepository.findByUserIdAndDelFlagIsFalse(userId);
             if(postes.isEmpty()){
                 return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
             } else {
                 for(Post post : postes){
                     PostResponse postResponse = new PostResponse();
-                    postResponse.setId(post.getPostId());
+                    postResponse.setId(post.getId());
                     postResponse.setText(post.getContent());
-                    postResponse.setOwnerName(post.getUser().getEmail());
+                    postResponse.setOwnerName(userDetails.getEmail());
                     postResponse.setDate(post.getDate());
-                    postResponse.setCommentCount(commentService.countByPostPostId(post.getPostId()));
-                    postResponse.setEmoteCount(emoteService.countByPostPostId(post.getPostId()));
+                    postResponse.setCommentCount(commentService.countByPostId(post.getId()));
+                    postResponse.setEmoteCount(emoteService.countByPostId(post.getId()));
                     postResponses.add(postResponse);
                 }
             }
@@ -124,12 +132,15 @@ public class PostServiceImpl implements PostService{
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            if(postRepository.existsByUserUserIdAndPostId(userDetails.getId(), id)){
-                Post post = postRepository.findByPostId(id);
+            if(postRepository.existsByUserIdAndIdAndDelFlagIsFalse(userDetails.getId(), id)){
+                Post post = postRepository.findByIdAndDelFlagIsFalse(id);
                 imageService.deleteImage(post.getImageLink());
                 commentService.deleteByPostId(id);
                 emoteService.deleteByPostId(id);
-                postRepository.deleteByPostId(id);
+                post.setDelFlag(true);
+                post.setUpdateUserName(userDetails.getUsername());
+                post.setUpdateDate(new Date());
+                postRepository.save(post);
                 return new ResponseEntity<>("Xoa Post thanh cong", HttpStatus.OK);
             } else {
                 return ResponseEntity.badRequest()
@@ -141,21 +152,21 @@ public class PostServiceImpl implements PostService{
     }
 
     public Post findByPostId(String id){
-        return postRepository.findByPostId(id);
+        return postRepository.findByIdAndDelFlagIsFalse(id);
     }
 
     public ResponseEntity<?> findPost(String id){
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            Post post = postRepository.findByPostId(id);
+            Post post = postRepository.findByIdAndDelFlagIsFalse(id);
             PostResponse postResponse = new PostResponse();
             postResponse.setId(id);
             postResponse.setText(post.getContent());
             postResponse.setOwnerName(userDetails.getUsername());
             postResponse.setDate(post.getDate());
-            postResponse.setCommentCount(commentService.countByPostPostId(id));
-            postResponse.setEmoteCount(emoteService.countByPostPostId(id));
+            postResponse.setCommentCount(commentService.countByPostId(id));
+            postResponse.setEmoteCount(emoteService.countByPostId(id));
             return ResponseEntity.ok()
                     .body(postResponse);
         }catch (Exception e){
@@ -163,22 +174,23 @@ public class PostServiceImpl implements PostService{
         }
     }
     public List<Post> findByUserIdAndDateOrderByPostId(String userId, Date date){
-        return postRepository.findByUserUserIdAndDateOrderByPostId(userId, date);
+        return postRepository.findByUserIdAndDateAndDelFlagIsFalseOrderById(userId, date);
     }
 
     public Integer countByUserIdAndDateGreaterThanEqual(String userId, Date date){
-        return postRepository.countByUserUserIdAndDateGreaterThanEqual(userId, date);
+        return postRepository.countByUserIdAndDelFlagIsFalseAndDateGreaterThanEqual(userId, date);
     }
 
     public List<Post> findByUserIdOrderByDate(String userId){
-        return postRepository.findByUserUserIdOrderByDate(userId);
+        return postRepository.findByUserIdAndDelFlagIsFalseOrderByDate(userId);
     }
 
     public List<Post> findFriendPostByUserId(String userId, Pageable pageable){
-        return postRepository.findFriendPostByUserId(userId, pageable);
+        List<String> friendIds = friendshipRepository.findByUserIdAndDelFlagIsFalse(userId).stream().map(Friendship::getFriendId).toList();
+        return postRepository.findByUserIdInAndDelFlagIsFalseOrderByDate(friendIds, pageable);
     }
 
     public Boolean existsByUserIdAndPostId (String userId, String postId){
-        return postRepository.existsByUserUserIdAndPostId(userId, postId);
+        return postRepository.existsByUserIdAndIdAndDelFlagIsFalse(userId, postId);
     }
 }

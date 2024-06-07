@@ -13,6 +13,8 @@ public interface FriendshipRepository extends MongoRepository<Friendship, String
 
     public List<Friendship> findByUserIdAndSideAndDelFlagIsFalse(String userId, String side);
 
+    public Friendship findByUserIdAndFriendIdAndDelFlagIsFalse(String userId, String side);
+
     public List<Friendship> findByFriendIdAndSideAndDelFlagIsFalse(String friendId, String side);
 
     public Friendship findByIdAndDelFlagIsFalse(String friendshipId);

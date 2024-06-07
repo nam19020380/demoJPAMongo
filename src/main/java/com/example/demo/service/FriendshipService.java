@@ -20,8 +20,6 @@ public interface FriendshipService {
 
     public ResponseEntity<?> getAllUserFriends();
 
-    public void deleteFriendship(String userid, String friendId);
-
     public List<Friendship> findByUserId(String userId);
 
     public List<Friendship> findByUserIdAndSide(String userId, String side);

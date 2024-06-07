@@ -99,7 +99,7 @@ public class AuthController {
             user.setCreateDate(new Date());
 
             if(signUpRequest.getMultipartFile() != null){
-                user.setUserAvatarlink(imageService.uploadImage(signUpRequest.getMultipartFile()));
+                user.setUserAvatarLink(imageService.uploadImage(signUpRequest.getMultipartFile()));
             }
             user.setUserJob(signUpRequest.getJob());
 

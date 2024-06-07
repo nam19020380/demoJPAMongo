@@ -20,5 +20,5 @@ public interface PostRepository extends MongoRepository<Post, String> {
 
     public Boolean existsByUserIdAndIdAndDelFlagIsFalse(String userId, String statusId);
 
-    public List<Post> findByUserIdInAndDelFlagIsFalseOrderByDate(List<Integer> friendList, Pageable pageable);
+    public List<Post> findByUserIdInAndDelFlagIsFalseOrderByDate(List<String> friendList, Pageable pageable);
 }
