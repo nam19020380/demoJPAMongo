@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private String realPathtoUploads =  "D:\\Project01\\project01\\src\\main\\java\\com\\example\\demo\\uploads\\";
+    private final String realPathtoUploads =  "../uploads/";
     public String uploadImage(MultipartFile multipartFile) throws IOException {
 //        String uploadsDir = "/uploads/";
 //        String realPathtoUploads =  request.getServletContext().getRealPath(uploadsDir);

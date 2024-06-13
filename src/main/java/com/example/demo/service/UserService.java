@@ -16,4 +16,6 @@ public interface UserService {
     public List<User> findAll();
 
     public boolean checkIfExistByEmail(String email);
+
+
 }

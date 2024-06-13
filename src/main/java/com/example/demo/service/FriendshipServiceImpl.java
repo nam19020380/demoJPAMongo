@@ -111,13 +111,13 @@ public class FriendshipServiceImpl implements FriendshipService{
         return friendshipRepository.findByUserIdAndDelFlagIsFalse(userId);
     }
 
-    public ResponseEntity<?> getAllUserRequests(){
-        try{
+    public ResponseEntity<?> getAllUserRequests() {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             List<Friendship> friendshipList = friendshipRepository.findByFriendIdAndSideAndDelFlagIsFalse(userDetails.getId(), "1");
             List<FriendshipResponse> responseList = new ArrayList<>();
-            for(Friendship friendship : friendshipList){
+            for (Friendship friendship : friendshipList) {
                 FriendshipResponse friendshipResponse = new FriendshipResponse();
                 friendshipResponse.setId(friendship.getId());
                 friendshipResponse.setFromId(friendship.getUserId());
@@ -125,7 +125,7 @@ public class FriendshipServiceImpl implements FriendshipService{
                 responseList.add(friendshipResponse);
             }
             return new ResponseEntity<>(responseList, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>("Sever error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
